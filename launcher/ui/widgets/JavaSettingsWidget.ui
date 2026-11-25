@@ -204,6 +204,26 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
+       <widget class="QGroupBox" name="memoryProfilesGroupBox">
+        <property name="title"><string>Quick Memory Profile</string></property>
+        <layout class="QVBoxLayout" name="memoryProfilesLayout">
+         <item>
+          <widget class="QLabel" name="memoryPresetDescription">
+           <property name="text"><string>Choose a safe Java memory limit for this PC. You can still adjust the values below.</string></property>
+           <property name="wordWrap"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="memoryPresetButtonsLayout">
+           <item><widget class="QPushButton" name="potatoMemoryButton"><property name="toolTip"><string>Conservative heap for PCs with limited RAM.</string></property><property name="text"><string>Potato PC</string></property></widget></item>
+           <item><widget class="QPushButton" name="balancedMemoryButton"><property name="toolTip"><string>Balanced allocation for everyday gameplay and light modpacks.</string></property><property name="text"><string>Balanced</string></property></widget></item>
+           <item><widget class="QPushButton" name="performanceMemoryButton"><property name="toolTip"><string>Higher heap for larger modpacks on PCs with sufficient RAM.</string></property><property name="text"><string>Performance</string></property></widget></item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <layout class="QFormLayout" name="formLayout">
         <property name="labelAlignment">
          <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>

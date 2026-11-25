@@ -150,6 +150,34 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
+    // PerLauncher desktop theme: compact, high-contrast and intentionally lightweight.
+    setStyleSheet(QStringLiteral(R"perlauncher(
+        QMainWindow, QWidget#centralWidget { background: #0b1020; color: #e8ecf7; }
+        QToolBar { background: #111a2d; border: 0; spacing: 6px; padding: 7px; }
+        QToolBar::separator { background: #27344e; width: 1px; margin: 5px 4px; }
+        QToolButton { color: #e8ecf7; background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 7px 9px; }
+        QToolButton:hover { background: #202d49; border-color: #344566; }
+        QToolButton:checked { color: #ffffff; background: #3b2b70; border-color: #8b69ff; }
+        QListView, QTreeView, QTableView { background: #0f1728; alternate-background-color: #131e32; color: #e8ecf7; border: 1px solid #26344f; border-radius: 10px; padding: 6px; outline: 0; }
+        QListView::item, QTreeView::item { padding: 8px; border-radius: 7px; }
+        QListView::item:hover, QTreeView::item:hover { background: #1a2842; }
+        QListView::item:selected, QTreeView::item:selected { background: #30265b; border: 1px solid #8b69ff; color: #ffffff; }
+        QPushButton { color: #eef2ff; background: #1a2740; border: 1px solid #344664; border-radius: 8px; padding: 7px 12px; min-height: 22px; }
+        QPushButton:hover { background: #263858; border-color: #7d67e8; }
+        QPushButton:pressed { background: #3b2b70; }
+        QPushButton:default { background: #6545c5; border-color: #8c70ed; color: white; font-weight: 600; }
+        QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QDoubleSpinBox, QComboBox { color: #edf1ff; background: #0d1525; border: 1px solid #2b3b58; border-radius: 7px; padding: 6px; selection-background-color: #6045b7; }
+        QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus, QSpinBox:focus, QComboBox:focus { border: 1px solid #9277ff; }
+        QMenu { background: #141e31; color: #e8ecf7; border: 1px solid #344664; padding: 5px; }
+        QMenu::item { padding: 7px 26px 7px 10px; border-radius: 5px; }
+        QMenu::item:selected { background: #3b2b70; }
+        QStatusBar { background: #10192a; color: #aebbd2; border-top: 1px solid #26344f; }
+        QHeaderView::section { background: #17243a; color: #cbd5ea; border: 0; border-bottom: 1px solid #344664; padding: 7px; }
+        QScrollBar:vertical { background: #0d1525; width: 10px; margin: 2px; }
+        QScrollBar::handle:vertical { background: #354666; min-height: 24px; border-radius: 5px; }
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
+    )perlauncher"));
+
     setWindowIcon(APPLICATION->logo());
     setWindowTitle(APPLICATION->applicationDisplayName());
 #ifndef QT_NO_ACCESSIBILITY
@@ -952,7 +980,7 @@ void MainWindow::processURLs(QList<QUrl> urls)
                 } else {
                     CustomMessageBox::selectable(
                         this, tr("Error"),
-                        tr("Unsupported Modrinth link.\n\nPrism Launcher currently only supports modpack links such as "
+                        tr("Unsupported Modrinth link.\n\nPerLauncher currently only supports modpack links such as "
                            "modrinth://modpack/fabulously-optimized."),
                         QMessageBox::Critical)
                         ->show();

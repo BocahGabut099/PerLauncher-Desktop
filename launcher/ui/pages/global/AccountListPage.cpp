@@ -140,15 +140,9 @@ void AccountListPage::on_actionAddMicrosoft_triggered()
 
 void AccountListPage::on_actionAddOffline_triggered()
 {
-    if (!m_accounts->anyAccountIsValid()) {
-        QMessageBox::warning(this, tr("Error"),
-                             tr("You must add a Microsoft account that owns Minecraft before you can add an offline account."
-                                "<br><br>"
-                                "If you have lost your account you can contact Microsoft for support."));
-        return;
-    }
-
-    ChooseOfflineNameDialog dialog(tr("Please enter your desired username to add your offline account."), this);
+    ChooseOfflineNameDialog dialog(
+        tr("Enter a local offline profile name. Offline profiles do not authenticate with Microsoft or Ely.by. "
+           "They are for single-player or servers that explicitly allow offline-mode accounts."), this);
     if (dialog.exec() != QDialog::Accepted) {
         return;
     }

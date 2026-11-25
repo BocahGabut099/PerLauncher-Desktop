@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>@Launcher_AppID@</id>
+  <name>PerLauncher</name>
+  <summary>Desktop Minecraft instance manager</summary>
+  <developer id="org.perlauncher"><name>PerLauncher Contributors</name></developer>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <description>
+    <p>PerLauncher is a desktop launcher for managing separate Minecraft installations, Java runtimes, modloaders and modpacks.</p>
+    <ul>
+      <li>Manage isolated Minecraft instances</li>
+      <li>Install supported modloaders and modpacks</li>
+      <li>Manage mods, resource packs, shaders, worlds and screenshots</li>
+      <li>Configure Java and memory for low-end and high-end PCs</li>
+      <li>Use Microsoft accounts or local offline profiles</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">@Launcher_AppID@.desktop</launchable>
+  <url type="homepage">https://github.com/BocahGabut099/PerLauncher-Desktop.</url>
+  <url type="bugtracker">https://github.com/BocahGabut099/PerLauncher-Desktop./issues</url>
+  <releases><release version="@Launcher_VERSION_NAME@" date="@Launcher_BUILD_TIMESTAMP@"/></releases>
+</component>

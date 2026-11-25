@@ -115,6 +115,40 @@ JavaSettingsWidget::JavaSettingsWidget(MinecraftInstance* instance, QWidget* par
     connect(m_ui->maxMemSpinBox, &QSpinBox::valueChanged, this, &JavaSettingsWidget::updateThresholds);
     connect(m_ui->minMemSpinBox, &QSpinBox::valueChanged, this, &JavaSettingsWidget::updateThresholds);
 
+    const auto totalRamMiB = HardwareInfo::totalRamMiB();
+    auto maxMemoryForProfile = [totalRamMiB](int profile) {
+        if (profile == 0) { // Potato PC
+            if (totalRamMiB == 0 || totalRamMiB <= 3072) return 768;
+            if (totalRamMiB <= 4096) return 1024;
+            if (totalRamMiB <= 6144) return 1536;
+            return 2048;
+        }
+        if (profile == 1) { // Balanced
+            if (totalRamMiB == 0) return 2048;
+            if (totalRamMiB <= 3072) return 1024;
+            if (totalRamMiB <= 4096) return 1536;
+            if (totalRamMiB <= 6144) return 2048;
+            if (totalRamMiB <= 8192) return 3072;
+            return 4096;
+        }
+        // Performance: capped to avoid starving Windows even on high-RAM PCs.
+        if (totalRamMiB == 0) return 2048;
+        if (totalRamMiB <= 3072) return 1024;
+        if (totalRamMiB <= 4096) return 1792;
+        if (totalRamMiB <= 6144) return 2560;
+        if (totalRamMiB <= 8192) return 4096;
+        return 6144;
+    };
+    auto applyMemoryProfile = [this, maxMemoryForProfile](int profile) {
+        m_ui->memoryGroupBox->setChecked(true);
+        m_ui->minMemSpinBox->setValue(profile == 0 ? 256 : 512);
+        m_ui->maxMemSpinBox->setValue(maxMemoryForProfile(profile));
+        updateThresholds();
+    };
+    connect(m_ui->potatoMemoryButton, &QPushButton::clicked, this, [applyMemoryProfile] { applyMemoryProfile(0); });
+    connect(m_ui->balancedMemoryButton, &QPushButton::clicked, this, [applyMemoryProfile] { applyMemoryProfile(1); });
+    connect(m_ui->performanceMemoryButton, &QPushButton::clicked, this, [applyMemoryProfile] { applyMemoryProfile(2); });
+
     loadSettings();
     updateThresholds();
 }

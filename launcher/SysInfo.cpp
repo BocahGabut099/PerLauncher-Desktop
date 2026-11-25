@@ -87,11 +87,14 @@ QString useQTForArch()
 
 int defaultMaxJvmMem()
 {
-    // If totalRAM < 6GB, use (totalRAM / 1.5), else 4GB
-    if (const uint64_t totalRAM = HardwareInfo::totalRamMiB(); totalRAM < (4096 * 1.5))
-        return totalRAM / 1.5;
-    else
-        return 4096;
+    // Conservative defaults for Windows PCs: keep enough RAM for the OS and the launcher.
+    const uint64_t totalRAM = HardwareInfo::totalRamMiB();
+    if (totalRAM == 0) return 2048;
+    if (totalRAM <= 3072) return 768;
+    if (totalRAM <= 4096) return 1024;
+    if (totalRAM <= 6144) return 2048;
+    if (totalRAM <= 8192) return 3072;
+    return 4096;
 }
 
 QString getSupportedJavaArchitecture()

@@ -42,6 +42,7 @@
 
 #include "Application.h"
 #include "BuildConfig.h"
+#include "HardwareInfo.h"
 
 #include "DataMigrationTask.h"
 #include "java/JavaInstallList.h"
@@ -450,7 +451,7 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
     m_dataPath = dataPath;
 
     /*
-     * Establish the mechanism for communication with an already running PrismLauncher that uses the same data path.
+     * Establish the mechanism for communication with an already running PerLauncher that uses the same data path.
      * If there is one, tell it what the user actually wanted to do and exit.
      * We want to initialize this before logging to avoid messing with the log of a potential already running copy.
      */
@@ -650,8 +651,8 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
         m_settings.reset(new INISettingsObject({ BuildConfig.LAUNCHER_CONFIGFILE, "polymc.cfg", "multimc.cfg" }, this));
 
         // Theming
-        m_settings->registerSetting("IconTheme", QString());
-        m_settings->registerSetting("ApplicationTheme", QString());
+        m_settings->registerSetting("IconTheme", QString("pe_dark"));
+        m_settings->registerSetting("ApplicationTheme", QString("dark"));
         m_settings->registerSetting("BackgroundCat", QString("kitteh"));
 
         // Remembered state
@@ -659,8 +660,11 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
 
         m_settings->registerSetting("MenuBarInsteadOfToolBar", false);
 
-        m_settings->registerSetting("NumberOfConcurrentTasks", 10);
-        m_settings->registerSetting("NumberOfConcurrentDownloads", 6);
+        const auto totalRamMiB = HardwareInfo::totalRamMiB();
+        const int defaultTaskLimit = totalRamMiB < 4096 ? 3 : (totalRamMiB < 8192 ? 5 : 8);
+        const int defaultDownloadLimit = totalRamMiB < 4096 ? 2 : (totalRamMiB < 8192 ? 4 : 6);
+        m_settings->registerSetting("NumberOfConcurrentTasks", defaultTaskLimit);
+        m_settings->registerSetting("NumberOfConcurrentDownloads", defaultDownloadLimit);
         m_settings->registerSetting("NetworkRetryLimit", 2);
         m_settings->registerSetting("RequestTimeout", 15);
 
@@ -1087,9 +1091,9 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
 
     // check update locks
     {
-        auto updateLogPath = FS::PathCombine(m_dataPath, "logs", "prism_launcher_update.log");
+        auto updateLogPath = FS::PathCombine(m_dataPath, "logs", "perlauncher_update.log");
 
-        auto updateLock = QFileInfo(FS::PathCombine(m_dataPath, ".prism_launcher_update.lock"));
+        auto updateLock = QFileInfo(FS::PathCombine(m_dataPath, ".perlauncher_update.lock"));
         if (updateLock.exists()) {
             auto [timestamp, from, to, target, lockDataPath] = readLockFile(updateLock.absoluteFilePath());
             auto infoMsg = tr("This installation has a update lock file present at: %1\n"
@@ -1101,7 +1105,7 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
                               "\n"
                               "This likely means that a update attempt failed. Please ensure your installation is in working order before "
                               "proceeding.\n"
-                              "Check the Prism Launcher updater log at: \n"
+                              "Check the PerLauncher updater log at: \n"
                               "%7\n"
                               "for details on the last update attempt.\n"
                               "\n"
@@ -1135,13 +1139,13 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
             }
         }
 
-        auto updateFailMarker = QFileInfo(FS::PathCombine(m_dataPath, ".prism_launcher_update.fail"));
+        auto updateFailMarker = QFileInfo(FS::PathCombine(m_dataPath, ".perlauncher_update.fail"));
         if (updateFailMarker.exists()) {
             auto infoMsg = tr("An update attempt failed\n"
                               "\n"
                               "Please ensure your installation is in working order before "
                               "proceeding.\n"
-                              "Check the Prism Launcher updater log at: \n"
+                              "Check the PerLauncher updater log at: \n"
                               "%1\n"
                               "for details on the last update attempt.")
                                .arg(updateLogPath);
@@ -1171,12 +1175,12 @@ Application::Application(int& argc, char** argv) : QApplication(argc, argv)
             }
         }
 
-        auto updateSuccessMarker = QFileInfo(FS::PathCombine(m_dataPath, ".prism_launcher_update.success"));
+        auto updateSuccessMarker = QFileInfo(FS::PathCombine(m_dataPath, ".perlauncher_update.success"));
         if (updateSuccessMarker.exists()) {
             auto infoMsg = tr("Update succeeded\n"
                               "\n"
                               "You are now running %1 .\n"
-                              "Check the Prism Launcher updater log at: \n"
+                              "Check the PerLauncher updater log at: \n"
                               "%2\n"
                               "for details.")
                                .arg(BuildConfig.printableVersionString())

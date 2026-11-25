@@ -1,0 +1,33 @@
+perlauncher(6)
+
+# NAME
+
+perlauncher - a desktop launcher and instance manager for Minecraft.
+
+# SYNOPSIS
+
+*perlauncher* [OPTIONS...]
+
+# DESCRIPTION
+
+PerLauncher manages separate Minecraft installations, modloaders, modpacks and Java runtimes.
+
+# OPTIONS
+
+*-d, --dir*=DIRECTORY
+	Use DIRECTORY as the launcher root.
+
+*-l, --launch*=INSTANCE_ID
+	Launch the instance specified by INSTANCE_ID.
+
+*--show*=INSTANCE_ID
+	Show the configuration window of the instance specified by INSTANCE_ID.
+
+*--alive*
+	Write a small live-check file after startup.
+
+*-h, --help*
+	Display help text and exit.
+
+*-v, --version*
+	Display program version and exit.
