@@ -88,10 +88,16 @@
    <property name="text">
     <string>&amp;Add Microsoft</string>
    </property>
+   <property name="toolTip">
+    <string>Sign in with a Microsoft account that owns Minecraft: Java Edition.</string>
+   </property>
   </action>
   <action name="actionAddOffline">
    <property name="text">
-    <string>Add &amp;Offline</string>
+    <string>Add &amp;Offline Profile</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a local test profile. It does not grant Minecraft ownership or authenticate with online-mode servers.</string>
    </property>
   </action>
   <action name="actionRefresh">

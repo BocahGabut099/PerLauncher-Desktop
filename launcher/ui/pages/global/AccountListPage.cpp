@@ -54,8 +54,9 @@ AccountListPage::AccountListPage(QWidget* parent) : QMainWindow(parent), ui(new 
 {
     ui->setupUi(this);
     ui->listView->setEmptyString(
-        tr("Welcome!\n"
-           "If you're new here, you can select the \"Add Microsoft\" button to link your Microsoft account."));
+        tr("Welcome to PerLauncher!\n"
+           "Use Add Microsoft for Microsoft sign-in, or Add Offline Profile to create a local test profile. "
+           "Offline profiles do not grant Minecraft ownership or online access."));
     ui->listView->setEmptyMode(VersionListView::String);
     ui->listView->setContextMenuPolicy(Qt::CustomContextMenu);
 
